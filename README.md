@@ -15,7 +15,7 @@
 This project is designed to classify text data into predefined categories using machine learning techniques. The primary objective is to preprocess the text data, build features, train a model, and evaluate its performance.
 
 ## Project Structure
-
+```
 .
 ├── notebooks
 │ ├── .ipynb_checkpoints
@@ -34,7 +34,7 @@ This project is designed to classify text data into predefined categories using 
 ├── log.log
 ├── README.md
 └── requirements.txt
-
+```
   
 
 ## Installation
