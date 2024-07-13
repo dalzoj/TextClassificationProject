@@ -71,9 +71,6 @@ python -c "import nltk; nltk.download('stopwords')"
 
 ## Installation
 
-### Configuration
-Create a .env file in the root directory with the necessary environment variables. Refer to .env.example for the structure.
-
 ### Running the Preprocessing Script
 To preprocess the data with normal processing, execute:
 ```
