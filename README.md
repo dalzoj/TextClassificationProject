@@ -18,13 +18,6 @@ This project is designed to classify text data into predefined categories using 
 ```
 .
 ├── notebooks
-│ ├── .ipynb_checkpoints
-│ └── others
-│ ├── build_features.ipynb
-│ ├── complete.ipynb
-│ ├── data_processing.ipynb
-│ ├── load_data.ipynb
-│ └── modeling.ipynb
 ├── src
 │ ├── data
 │ │ ├── load_data.py
@@ -42,7 +35,7 @@ This project is designed to classify text data into predefined categories using 
   
 
 ### Prerequisites
-- Python 3.8+
+- Python 3.12
 -  `pip` package manager
  
 ### Steps
@@ -55,7 +48,8 @@ cd TextClassificationProject
 2.  **Create a virtual environment**
 ```
 python -m venv venv
-source venv/bin/activate # On Windows use `venv\Scripts\activate`
+source venv/bin/activate
+# On Windows use `venv\Scripts\activate`
 ```
 
 3.  **Install the required packages**
@@ -63,9 +57,14 @@ source venv/bin/activate # On Windows use `venv\Scripts\activate`
 pip install -r requirements.txt
 ```
 
-4.  **Download NLTK stopwords**
+4. **Export Project Path**
 ```
-python -c "import nltk; nltk.download('stopwords')"
+export PYTHONPATH=$(pwd):$PYTHONPATH
+```
+
+5.  **Download NLTK stopwords**
+```
+python -c "import nltk; nltk.download('popular')"
 ```
   
 
