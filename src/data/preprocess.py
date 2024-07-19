@@ -1,5 +1,6 @@
+# src/data/preprocess.py
+
 import re
-import os
 import argparse
 import pandas as pd
 import src.utils.general_path as general_path
@@ -92,7 +93,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Script para procesar datos.')
     parser.add_argument('--pt', type=str, default='normal', help='Tipo de procesamiento: "normal" o "spellchecker"')
     args = parser.parse_args()
-    processing_type = args.processing_type
+    processing_type = args.pt
 
     # Carga de datos
     raw_analytic_df = pd.read_csv(general_path.RAW_DATA_PATH + raw_analytic_name)
@@ -152,7 +153,6 @@ if __name__ == "__main__":
     # Transformación de las categorías
     y_encoder = le.fit_transform(preprocess_df['label'])
     preprocess_df['label'] = y_encoder
-
     preprocess_df.to_csv(
         f'{general_path.PROCESSED_DATA_PATH}{processing_type}_processed_data_s{preprocess_df.shape[0]}.csv',
         index = False

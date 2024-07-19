@@ -29,10 +29,10 @@ def get_object(objects_path, object_name):
     if os.path.exists(objects_path + object_name):
         with open(objects_path + object_name, 'rb') as archive:
             object_file = pickle.load(archive)
-            msg = f' > CREADO: Objeto cargado desde {objects_path}/{object_name}'      
+            msg = f' > CREADO: Objeto cargado desde {objects_path}{object_name}'      
     else:
         object_file = None
-        msg = f' > CREADO: Objeto no existente {objects_path}/{object_name}'
+        msg = f' > CREADO: Objeto no existente {objects_path}{object_name}'
 
     logger.info(msg)    
     return object_file
