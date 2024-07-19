@@ -1,6 +1,7 @@
 
 # Text Classification Project
 
+
 ## Table of Contents
 - [Introduction](#introduction)
 - [Project Structure](#project-structure)
@@ -13,6 +14,7 @@
 ## Introduction
 
 This project is designed to classify text data into predefined categories using machine learning techniques. The primary objective is to preprocess the text data, build features, train a model, and evaluate its performance.
+
 
 ## Project Structure
 ```
@@ -28,11 +30,9 @@ This project is designed to classify text data into predefined categories using 
 ├── README.md
 └── requirements.txt
 ```
-  
+
 
 ## Installation
-
-  
 
 ### Prerequisites
 - Python 3.12
@@ -44,36 +44,29 @@ This project is designed to classify text data into predefined categories using 
 git clone https://github.com/dalzoj/TextClassificationProject.git
 cd TextClassificationProject
 ```
-
 2.  **Create a virtual environment**
 ```
 python -m venv venv
 source venv/bin/activate
 # On Windows use `venv\Scripts\activate`
 ```
-
 3.  **Install the required packages**
 ```
 pip install -r requirements.txt
 ```
-
 4. **Export Project Path**
 ```
 export PYTHONPATH=$(pwd):$PYTHONPATH
 ```
-
 5.  **Download NLTK stopwords**
 ```
 python -c "import nltk; nltk.download('popular')"
 ```
-  
-
-## Installation
 
 ### Running the Preprocessing Script
 To preprocess the data with normal processing, execute:
 ```
-python src/data/preprocess.py --processing_type normal
+python src/data/preprocess.py --pt normal
 ```
 or
 ```
@@ -81,7 +74,7 @@ python src/data/preprocess.py
 ```
 Then, to preprocess the data using spellchecker processing, execute:
 ```
-python src/data/preprocess.py --processing_type spellchecker
+python src/data/preprocess.py --pt spellchecker
 ```
 
 
@@ -90,6 +83,7 @@ You can also explore the data and train models using the Jupyter notebooks provi
 ```
 jupyter notebook
 ```
+
 
 ## Contributing
 Contributions are welcome! Please fork the repository and create a pull request with your changes.
@@ -102,13 +96,10 @@ Contributions are welcome! Please fork the repository and create a pull request 
 5. Open a pull request
 
   
-  
-
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
   
-
 ## Contact
 For any questions or suggestions, feel free to reach out to:
 * Diego Lizarazo
