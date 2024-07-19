@@ -90,16 +90,16 @@ def preprocess(data, column_name, processing_type):
 if __name__ == "__main__":
     logger.info(' > INICIO: Script Preprocesamiento de Datos')
     parser = argparse.ArgumentParser(description='Script para procesar datos.')
-    parser.add_argument('--processing_type', type=str, default='normal', help='Tipo de procesamiento: "normal" o "spellchecker"')
+    parser.add_argument('--pt', type=str, default='normal', help='Tipo de procesamiento: "normal" o "spellchecker"')
     args = parser.parse_args()
     processing_type = args.processing_type
 
     # Carga de datos
-    logger.info(' > Carga de datos')
     raw_analytic_df = pd.read_csv(general_path.RAW_DATA_PATH + raw_analytic_name)
     raw_correct_df = pd.read_excel(general_path.RAW_DATA_PATH + raw_correct_name)
+    logger.info(' > Carga de datos')
 
-    logger.info(' > Adecuacion de datos')
+    
     # Correción de datos
     correctly_processed_df = raw_correct_df.rename(
     columns = {
@@ -121,11 +121,12 @@ if __name__ == "__main__":
         [correctly_processed_df, processed_analytical_df]
         )
     preprocess_df = helpers.df_preprocess(preprocess_df, True, 'resultado')
+    logger.info(' > Adecuacion de datos')
 
     # Extensión de Stopwords
-    logger.info(' > CARGA: Stopwords')
     aditional_stopwords_list = general_path.EXTENDS_DATA_PATH + 'words_to_ignore.txt'
     stop_words.extend(aditional_stopwords_list)
+    logger.info(' > CARGA: Stopwords')
 
     # Preprocesado de datos
     logger.info(f' > PROCESO: Preprocesado de datos tipo {processing_type}')
