@@ -17,21 +17,25 @@ This project is designed to classify text data into predefined categories using 
 ## Project Structure
 ```
 .
+├── data
+│ ├── extends
+│ │ └── words_to_ignore.txt
+│ ├── processed
+│ │ └── processed_data.csv
+│ ├── raw
+│ │ └── raw_data.csv
 ├── notebooks
-│ ├── .ipynb_checkpoints
-│ └── others
 │ ├── build_features.ipynb
 │ ├── complete.ipynb
 │ ├── data_processing.ipynb
 │ ├── load_data.ipynb
-│ └── modeling.ipynb
+│ ├── modeling.ipynb
+│ ├── others
+│ │ └── *.ipynb
 ├── src
 │ ├── data
 │ │ ├── load_data.py
 │ │ └── preprocess.py
-├── .env
-├── .gitignore
-├── log.log
 ├── README.md
 └── requirements.txt
 ```
@@ -55,7 +59,10 @@ cd TextClassificationProject
 2.  **Create a virtual environment**
 ```
 python -m venv venv
-source venv/bin/activate # On Windows use `venv\Scripts\activate`
+source venv/bin/activate
+
+# On Windows use
+venv\Scripts\activate
 ```
 
 3.  **Install the required packages**
@@ -74,7 +81,7 @@ python -c "import nltk; nltk.download('stopwords')"
 ### Running the Preprocessing Script
 To preprocess the data with normal processing, execute:
 ```
-python src/data/preprocess.py --processing_type normal
+python src/data/preprocess.py --pt normal
 ```
 or
 ```
@@ -82,7 +89,7 @@ python src/data/preprocess.py
 ```
 Then, to preprocess the data using spellchecker processing, execute:
 ```
-python src/data/preprocess.py --processing_type spellchecker
+python src/data/preprocess.py --pt spellchecker
 ```
 
 
