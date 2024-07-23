@@ -137,12 +137,16 @@ if __name__ == "__main__":
     logger.info(f' > PROCESO: Preprocesado de datos tipo {processing_type}')
     preprocess_df = preprocess(preprocess_df, 'text', processing_type)
 
+    # Nomenclatura de tipo de preprocesado
+    if processing_type == 'normal': processing_type = 'n'
+    elif processing_type == 'spellchecker': processing_type = 'sc'
+
     # Guarde de información
     preprocess_df.to_csv(
-        f'{general_path.PROCESSED_DATA_PATH}{processing_type}_data_s{preprocess_df.shape[0]}.xlsx',
+        f'{general_path.PROCESSED_DATA_PATH}{processing_type}_d_s{preprocess_df.shape[0]}.xlsx',
         index = False
         )
-    msg = f' > CREADO: Archivo {processing_type}_data_s{preprocess_df.shape[0]}.xlsx en {general_path.PROCESSED_DATA_PATH}{processing_type}_data_s{preprocess_df.shape[0]}.xlsx'
+    msg = f' > CREADO: Archivo {processing_type}_d_s{preprocess_df.shape[0]}.xlsx en {general_path.PROCESSED_DATA_PATH}{processing_type}_data_s{preprocess_df.shape[0]}.xlsx'
     logger.info(msg)
     
     # Codificación de categorías
@@ -158,8 +162,8 @@ if __name__ == "__main__":
     y_encoder = le.fit_transform(preprocess_df['label'])
     preprocess_df['label'] = y_encoder
     preprocess_df.to_csv(
-        f'{general_path.PROCESSED_DATA_PATH}{processing_type}_processed_data_s{preprocess_df.shape[0]}.csv',
+        f'{general_path.PROCESSED_DATA_PATH}{processing_type}_pre_d_s{preprocess_df.shape[0]}.csv',
         index = False
         )
-    msg = f' > CREADO: Archivo {processing_type}_processed_data_s{preprocess_df.shape[0]}.csv en {general_path.PROCESSED_DATA_PATH}{processing_type}_processed_data_s{preprocess_df.shape[0]}.csv'
+    msg = f' > CREADO: Archivo {processing_type}_pre_d_s{preprocess_df.shape[0]}.csv en {general_path.PROCESSED_DATA_PATH}{processing_type}_pre_d_s{preprocess_df.shape[0]}.csv'
     logger.info(msg)
