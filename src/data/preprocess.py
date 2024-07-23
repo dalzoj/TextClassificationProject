@@ -136,6 +136,7 @@ if __name__ == "__main__":
     # Preprocesado de datos
     logger.info(f' > PROCESO: Preprocesado de datos tipo {processing_type}')
     preprocess_df = preprocess(preprocess_df, 'text', processing_type)
+    preprocess_df = helpers.df_preprocess(preprocess_df, True)
 
     # Nomenclatura de tipo de preprocesado
     if processing_type == 'normal': processing_type = 'n'
@@ -156,7 +157,6 @@ if __name__ == "__main__":
         helpers.save_object(general_path.OBJECTS_PATH, f'label_encoder_s{preprocess_df.shape[0]}.pkl', le)
     else:
         msg = f' > CARGADO: {general_path.OBJECTS_PATH}label_encoder_s{preprocess_df.shape[0]}.pkl'
-
 
     # Transformación de las categorías
     y_encoder = le.fit_transform(preprocess_df['label'])
