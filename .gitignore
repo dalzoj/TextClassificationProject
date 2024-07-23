@@ -165,7 +165,10 @@ cython_debug/
 data/raw/*
 
 # Ignore all files in data/processed
-data/processed/*
+data/preprocessed/*
+
+# Ignore all files in objects/
+objects/*
 
 # Ignore sensible_files
 notebooks/complete.ipynb

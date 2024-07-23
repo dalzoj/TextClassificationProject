@@ -1,4 +1,4 @@
-# src/data/preprocess.py
+# src/data/prepreprocessed.py
 import os
 import sys
 
@@ -36,17 +36,17 @@ def text_processing(text):
     Process the given text by normalizing, removing unwanted characters, punctuation, and stopwords.
 
     Args:
-        text (str): The input text to be processed.
+        text (str): The input text to be prepreprocessed.
 
     Returns:
-        str: The processed text with unwanted characters, punctuation, and stopwords removed.
+        str: The prepreprocessed text with unwanted characters, punctuation, and stopwords removed.
     """
-    processed_text = unidecode(text.lower())
-    processed_text = re.sub(letters_pat, " ", processed_text)
-    processed_text = re.sub(points_pat, " ", processed_text)
-    processed_text = re.sub(spaces_pat, " ", processed_text)
-    processed_text = processed_text.strip()
-    tokens = processed_text.split()
+    prepreprocessed_text = unidecode(text.lower())
+    prepreprocessed_text = re.sub(letters_pat, " ", prepreprocessed_text)
+    prepreprocessed_text = re.sub(points_pat, " ", prepreprocessed_text)
+    prepreprocessed_text = re.sub(spaces_pat, " ", prepreprocessed_text)
+    prepreprocessed_text = prepreprocessed_text.strip()
+    tokens = prepreprocessed_text.split()
     tokens = [token for token in tokens if token not in stop_words]
     return " ".join(tokens)
 
@@ -56,17 +56,17 @@ def text_spellchecker_processing(text):
     correcting spelling errors, and removing stopwords.
 
     Args:
-        text (str): The input text to be processed.
+        text (str): The input text to be prepreprocessed.
 
     Returns:
-        str: The processed text with spelling corrections and unwanted characters, punctuation, and stopwords removed.
+        str: The prepreprocessed text with spelling corrections and unwanted characters, punctuation, and stopwords removed.
     """
-    processed_text = unidecode(text.lower())
-    processed_text = re.sub(letters_pat, " ", processed_text)
-    processed_text = re.sub(points_pat, " ", processed_text)
-    processed_text = re.sub(spaces_pat, " ", processed_text)
-    processed_text = processed_text.strip()
-    tokens = processed_text.split()
+    prepreprocessed_text = unidecode(text.lower())
+    prepreprocessed_text = re.sub(letters_pat, " ", prepreprocessed_text)
+    prepreprocessed_text = re.sub(points_pat, " ", prepreprocessed_text)
+    prepreprocessed_text = re.sub(spaces_pat, " ", prepreprocessed_text)
+    prepreprocessed_text = prepreprocessed_text.strip()
+    tokens = prepreprocessed_text.split()
     tokens = [token for token in tokens if token not in stop_words]
     tokens = [spell.correction(token) if spell.correction(token) else token for token in tokens]
     print(unidecode(" ".join(tokens)))
@@ -78,11 +78,11 @@ def preprocess(data, column_name, processing_type):
 
     Args:
         data (pd.DataFrame): The input DataFrame containing the text data.
-        column_name (str): The name of the column to be processed.
+        column_name (str): The name of the column to be prepreprocessed.
         processing_type (str): The type of processing to apply ('normal' or 'spellchecker').
 
     Returns:
-        pd.DataFrame: The DataFrame with the specified column processed and preprocessed.
+        pd.DataFrame: The DataFrame with the specified column prepreprocessed.
     """
     if processing_type == 'normal':
         data[column_name] = data[column_name].apply(text_processing)
@@ -106,24 +106,24 @@ if __name__ == "__main__":
 
     
     # Correción de datos
-    correctly_processed_df = raw_correct_df.rename(
+    correctly_preprocessed_df = raw_correct_df.rename(
     columns = {
         'hechos_sample': 'text',
         'Clasificación': 'label'
         }
     )
-    correctly_processed_df = correctly_processed_df[['label','text']]
-    correctly_processed_df = correctly_processed_df.replace(
+    correctly_preprocessed_df = correctly_preprocessed_df[['label','text']]
+    correctly_preprocessed_df = correctly_preprocessed_df.replace(
         to_replace = {
             'QUEJA': 'QJA',
             'SOLICITUD': 'SOL',
             'ASESORIA': 'ASE'
             }
         )
-    correctly_processed_df = helpers.df_preprocess(correctly_processed_df, True, raw_correct_name)
-    processed_analytical_df = helpers.df_preprocess(raw_analytic_df, True, raw_analytic_name)
+    correctly_preprocessed_df = helpers.df_preprocess(correctly_preprocessed_df, True, raw_correct_name)
+    preprocessed_analytical_df = helpers.df_preprocess(raw_analytic_df, True, raw_analytic_name)
     preprocess_df = pd.concat(
-        [correctly_processed_df, processed_analytical_df]
+        [correctly_preprocessed_df, preprocessed_analytical_df]
         )
     preprocess_df = helpers.df_preprocess(preprocess_df, True, 'resultado')
     logger.info(' > Adecuacion de datos')
@@ -144,10 +144,10 @@ if __name__ == "__main__":
 
     # Guarde de información
     preprocess_df.to_csv(
-        f'{general_path.PROCESSED_DATA_PATH}{processing_type}_d_s{preprocess_df.shape[0]}.xlsx',
+        f'{general_path.PREPROCESSED_DATA_PATH}{processing_type}_d_s{preprocess_df.shape[0]}.xlsx',
         index = False
         )
-    msg = f' > CREADO: Archivo {processing_type}_d_s{preprocess_df.shape[0]}.xlsx en {general_path.PROCESSED_DATA_PATH}{processing_type}_data_s{preprocess_df.shape[0]}.xlsx'
+    msg = f' > CREADO: Archivo {processing_type}_d_s{preprocess_df.shape[0]}.xlsx en {general_path.PREPROCESSED_DATA_PATH}{processing_type}_data_s{preprocess_df.shape[0]}.xlsx'
     logger.info(msg)
     
     # Codificación de categorías
@@ -162,8 +162,8 @@ if __name__ == "__main__":
     y_encoder = le.fit_transform(preprocess_df['label'])
     preprocess_df['label'] = y_encoder
     preprocess_df.to_csv(
-        f'{general_path.PROCESSED_DATA_PATH}{processing_type}_pre_d_s{preprocess_df.shape[0]}.csv',
+        f'{general_path.PREPROCESSED_DATA_PATH}{processing_type}_pre_d_s{preprocess_df.shape[0]}.csv',
         index = False
         )
-    msg = f' > CREADO: Archivo {processing_type}_pre_d_s{preprocess_df.shape[0]}.csv en {general_path.PROCESSED_DATA_PATH}{processing_type}_pre_d_s{preprocess_df.shape[0]}.csv'
+    msg = f' > CREADO: Archivo {processing_type}_pre_d_s{preprocess_df.shape[0]}.csv en {general_path.PREPROCESSED_DATA_PATH}{processing_type}_pre_d_s{preprocess_df.shape[0]}.csv'
     logger.info(msg)
