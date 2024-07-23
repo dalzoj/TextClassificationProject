@@ -167,8 +167,8 @@ data/raw/*
 # Ignore all files in data/processed
 data/preprocessed/*
 
-# Ignore all files in objects/
-objects/*
+# Ignore all files in src/objects/
+src/objects/*
 
 # Ignore sensible_files
 notebooks/complete.ipynb
