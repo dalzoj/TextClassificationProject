@@ -151,12 +151,12 @@ if __name__ == "__main__":
     logger.info(msg)
     
     # Codificación de categorías
-    le = helpers.get_object(general_path.OBJECTS_PATH, f'label_encoder_s{preprocess_df.shape[0]}.pkl')
+    le = helpers.get_object(general_path.OBJECTS_PATH, f'le_s{preprocess_df.shape[0]}.pkl')
     if le == None:
         le = LabelEncoder().fit(preprocess_df['label'])
-        helpers.save_object(general_path.OBJECTS_PATH, f'label_encoder_s{preprocess_df.shape[0]}.pkl', le)
+        helpers.save_object(general_path.OBJECTS_PATH, f'le_s{preprocess_df.shape[0]}.pkl', le)
     else:
-        msg = f' > CARGADO: {general_path.OBJECTS_PATH}label_encoder_s{preprocess_df.shape[0]}.pkl'
+        msg = f' > CARGADO: {general_path.OBJECTS_PATH}le_s{preprocess_df.shape[0]}.pkl'
 
     # Transformación de las categorías
     y_encoder = le.fit_transform(preprocess_df['label'])
