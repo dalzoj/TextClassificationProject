@@ -43,7 +43,6 @@ This project is designed to classify text data into predefined categories using 
 │ ├── utils
 │ │ ├── general_path.py
 │ │ └── helper_functions.py
-
 ├── README.md
 └── requirements.txt
 ```
@@ -84,10 +83,11 @@ python -c "import nltk; nltk.download('stopwords')"
 ```
   
 
-## Installation
+## Usage
 
 ### Running the Preprocessing Script
 `--pt` specifies the type of preprocessing to apply (`normal` or `spellchecker`).
+
 To preprocess the data with normal processing, execute:
 ```
 python src/data/preprocess.py --pt normal
@@ -102,26 +102,19 @@ python src/data/preprocess.py --pt spellchecker
 ```
 
 ### Running the Builder Features Script
-`--pt` specifies the type of data preprocessing to find (`normal` or `spellchecker`).
-`--s` specifies the size of the dataset to process.
+`--f` specifies the data name to process.
+
 To build the features with normal processing, execute:
 ```
 python src/features/build_features.py
 ```
 or
 ```
-python src/features/build_features.py --pt normal --s 28817
+python src/features/build_features.py --f sc_pre_d_s28594
 ```
-This will process the data with normal preprocessing and create features using TF-IDF and BoW
-Then, to build the features using spellchecker processing, execute:
-```
-python src/features/build_features.py --pt spellchecker --s 28817
-```
-This will process the data using spellchecker preprocessing and create features using TF-IDF and BoW
 
 
-
-## Jupyter Notebooks
+### Jupyter Notebooks
 You can also explore the data and train models using the Jupyter notebooks provided in the notebooks directory. To start Jupyter Notebook, run:
 ```
 jupyter notebook

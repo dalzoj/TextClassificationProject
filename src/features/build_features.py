@@ -16,28 +16,25 @@ from sklearn.feature_extraction.text import CountVectorizer
 
 features_list = ['tfidf', 'bow']
 
-def build_features(processing_type, data, dataset_size, column_name):
+def build_features(data_name, data, column_name):
     for feature in features_list:
         get_features(
-            f'{feature}_{pt}_s{dataset_size}',
+            feature,
+            data_name,
             data,
-            processing_type,
-            dataset_size,
             column_name)
 
-def get_features(object_name, data, processing_type, dataset_size, column_name):
-    object = helpers.get_object(general_path.OBJECTS_PATH, f'{object_name}.pkl')
+def get_features(feature, data_name, data, column_name):
+    object = helpers.get_object(general_path.OBJECTS_PATH, f'{feature}_{data_name}.pkl')
     if object == None:
-        if 'tfidf' in object_name:
+        if 'tfidf' in feature:
             object = TfidfVectorizer().fit(data[column_name])
-            object_text = 'tfidf'
-        elif 'bow' in object_name:
+        elif 'bow' in feature:
             object = CountVectorizer().fit(data[column_name])
-            object_text = 'bow'
-        helpers.save_object(general_path.OBJECTS_PATH, f'{object_name}.pkl', object)
-        msg = f' > CREADO: Objeto {object_text}_{processing_type}_s{dataset_size} en {general_path.OBJECTS_PATH}{object_text}_{processing_type}_s{dataset_size}.pkl'
+        helpers.save_object(general_path.OBJECTS_PATH, f'{feature}_{data_name}.pkl', object)
+        msg = f' > CREADO: Objeto {feature}_{data_name}.pkl en {general_path.OBJECTS_PATH}{feature}_{data_name}.pkl'
     else:
-        msg = f' > AVISO: Objeto {object_name}.pkl existente'
+        msg = f' > AVISO: Objeto {feature}_{data_name}.pkl existente'
     logger.info(msg)
 
 column_name = 'text'
@@ -45,29 +42,24 @@ column_name = 'text'
 if __name__ == "__main__":
     logger.info(' > INICIO: Script Construcción de Características')
     parser = argparse.ArgumentParser(description='Script construir características.')
-    parser.add_argument('--pt', type=str, default='normal', help='Tipo de procesamiento: "normal" o "spellchecker"')
-    parser.add_argument('--s', type=str, default='28817', help='Tamaño del conjunto de datos')
+    parser.add_argument('--f', type=str, default='n_pre_d_s28817', help='Nombre del conjunto de datos')
     args = parser.parse_args()
-    processing_type = args.pt
-    dataset_size = args.s
-
-    # Nomenclatura de tipo de preprocesado
-    if processing_type == 'normal': pt = 'n'
-    elif processing_type == 'spellchecker': pt = 'sc'
-
-    # Creación de la ruta y cargue del archivo de datos según los argumentos enviados
-    data_path = f'{general_path.PREPROCESSED_DATA_PATH}{pt}_pre_d_s{dataset_size}.csv'
-    data = pd.read_csv(data_path)
-    data = helpers.df_preprocess(data, True)
+    data_name = args.f
 
     try:
+        # Creación de la ruta y cargue del archivo de datos según los argumentos enviados
+        data = pd.read_csv(f'{general_path.PREPROCESSED_DATA_PATH}{data_name}.csv')
+        data = helpers.df_preprocess(data, True)
+
+        # Construcción de Características
         build_features(
-            pt,
+            data_name,
             data,
-            dataset_size,
             column_name)
+        
         msg = f'> AVISO: La creación de características se ha efectuado correctamente.'
         logger.info(msg)
+        
     except Exception as e:
         msg = f'> ERROR: Contrucción de características {e}'
         logger.info(msg)
