@@ -17,6 +17,17 @@ from sklearn.feature_extraction.text import CountVectorizer
 features_list = ['tfidf', 'bow']
 
 def build_features(data_name, data, column_name):
+    """
+    Builds features for the given data using different vectorization methods.
+
+    Parameters:
+    data_name (str): Name of the processed dataset.
+    data (pandas.DataFrame): Dataset to process.
+    column_name (str): Name of the column in the DataFrame that contains the text to vectorize.
+
+    Returns:
+    None
+    """
     for feature in features_list:
         get_features(
             feature,
@@ -25,6 +36,18 @@ def build_features(data_name, data, column_name):
             column_name)
 
 def get_features(feature, data_name, data, column_name):
+    """
+    Generates and saves a feature object using the specified vectorization method.
+
+    Parameters:
+    feature (str): Type of feature to build (e.g., 'tfidf', 'bow').
+    data_name (str): Name of the processed dataset.
+    data (pandas.DataFrame): Dataset to process.
+    column_name (str): Name of the column in the DataFrame that contains the text to vectorize.
+
+    Returns:
+    None
+    """
     object = helpers.get_object(general_path.OBJECTS_PATH, f'{feature}_{data_name}.pkl')
     if object == None:
         if 'tfidf' in feature:
@@ -59,7 +82,7 @@ if __name__ == "__main__":
         
         msg = f'> AVISO: La creación de características se ha efectuado correctamente.'
         logger.info(msg)
-        
+
     except Exception as e:
         msg = f'> ERROR: Contrucción de características {e}'
         logger.info(msg)
