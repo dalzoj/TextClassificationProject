@@ -73,52 +73,62 @@ venv\Scripts\activate
 ```
 
 3.  **Install the required packages**
-```
-pip install -r requirements.txt
-```
+```pip install -r requirements.txt```
 
 4.  **Download NLTK stopwords**
-```
-python -c "import nltk; nltk.download('stopwords')"
-```
+```python -c "import nltk; nltk.download('stopwords')"```
   
 
 ## Usage
 
 ### Running the Preprocessing Script
-`--pt` specifies the type of preprocessing to apply (`normal` or `spellchecker`).
+* `--pt` specifies the type of preprocessing to apply (`normal` or `spellchecker`).
 
 To preprocess the data with normal processing, execute:
-```
-python src/data/preprocess.py --pt normal
-```
+```python src/data/preprocess.py --pt normal```
 or
-```
-python src/data/preprocess.py
-```
+```python src/data/preprocess.py```
 Then, to preprocess the data using spellchecker processing, execute:
-```
-python src/data/preprocess.py --pt spellchecker
-```
+```python src/data/preprocess.py --pt spellchecker```
 
 ### Running the Builder Features Script
-`--f` specifies the data name to process.
+* `--f` specifies the data name to process.
 
 To build the features with normal processing, execute:
-```
-python src/features/build_features.py
-```
+```python src/features/build_features.py```
 or
-```
-python src/features/build_features.py --f sc_pre_d_s28594
-```
+```python src/features/build_features.py --f sc_pre_d_s28594```
+
+### Running the Model Training
+The script for training models accepts several arguments to customize the training process. Below are the descriptions and usage examples for each argument.
+* `--tr` specifies the type of textual representation to use.
+* `--f` specifies the name of the dataset to process.
+* `--m` specifies the name of the model to train.
+* `--pg` specifies the name of the YAML file containing the model hyperparameters.
+
+**Example Usage**
+To train a model with the default settings, execute:
+```python src/train/train_model.py```
+This uses:
+* Textual Representation: `tfidf`
+* Dataset: `n_pre_d_s28817`
+* Model: `RandomForestClassifier`
+* Hyperparameter Grid File: `classification_param_grid_small`
+
+
+To customize the textual representation, dataset, model, or hyperparameter grid file, you can specify them as follows:
+**Example with Custom Textual Representation and Dataset**
+```python src/train/train_model.py --tr bow --f sc_pre_d_s28594```
+This uses:
+* Textual `Representation: bow`
+* Dataset: `sc_pre_d_s28594`
+* Model: `RandomForestClassifier` (default)
+* Hyperparameter Grid File: `classification_param_grid_small` (default)
 
 
 ### Jupyter Notebooks
 You can also explore the data and train models using the Jupyter notebooks provided in the notebooks directory. To start Jupyter Notebook, run:
-```
-jupyter notebook
-```
+```jupyter notebook```
 
 ## Contributing
 Contributions are welcome! Please fork the repository and create a pull request with your changes.
