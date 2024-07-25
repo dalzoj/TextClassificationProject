@@ -1,6 +1,7 @@
 # src/utils/helper_functions.py
 
 import os
+import yaml
 import pickle
 import logging
 
@@ -29,7 +30,7 @@ def get_object(objects_path, object_name):
     if os.path.exists(objects_path + object_name):
         with open(objects_path + object_name, 'rb') as archive:
             object_file = pickle.load(archive)
-            msg = f' > CREADO: Objeto cargado desde {objects_path}{object_name}'      
+            msg = f' > CARGADO: Objeto cargado desde {objects_path}{object_name}'      
     else:
         object_file = None
         msg = f' > CREADO: Objeto no existente {objects_path}{object_name}'
@@ -75,3 +76,19 @@ def df_preprocess(df, duplicates = False, data_name = None):
     df = df.reset_index(drop=True)
     logger.info(f' > PROCESO: Se han eliminado {original_shape-df.shape[0]} de {original_shape} en el preprocesado del archivo {data_name}') 
     return df
+
+def load_yaml_file(file_path, file_name):
+    """
+    Load data from a YAML file into a dict.
+
+    Parameters:
+    file_path (str): The path to the directory containing the YAML file.
+    file_name (str): The name of the YAML file.
+
+    Returns:
+    dict: A dict containing the data loaded from the YAML file.
+    """
+    with open(f'{file_path}{file_name}.yaml', 'r') as f:
+        yaml_dict = yaml.safe_load(f)
+    return yaml_dict
+

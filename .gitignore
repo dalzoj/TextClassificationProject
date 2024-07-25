@@ -170,6 +170,12 @@ data/preprocessed/*
 # Ignore all files in src/objects/
 src/objects/*
 
+# Ignore all files in src/models/save_models/
+src/models/save_models/*
+
+# Ignore model_log.txt
+src/models/*.txt
+
 # Ignore sensible_files
 notebooks/complete.ipynb
 notebooks/others/*
