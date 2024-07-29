@@ -87,6 +87,7 @@ python -c "import nltk; nltk.download('stopwords')"
 
 ### Running the Preprocessing Script
 * `--pt` specifies the type of preprocessing to apply (`normal` or `spellchecker`).
+* `--stemm` specifies whether to apply a stemming thread.
 
 To preprocess the data with normal processing, execute:
 ```
@@ -96,9 +97,17 @@ or
 ```
 python src/data/preprocess.py
 ```
-Then, to preprocess the data using spellchecker processing, execute:
+To preprocess the data using spellchecker processing, execute:
 ```
 python src/data/preprocess.py --pt spellchecker
+```
+Then, to preprocess data with Stemming in either of the two processing types, execute:
+```
+python src/data/preprocess.py --pt normal --stemm
+```
+or
+```
+python src/data/preprocess.py --pt spellchecker --stemm
 ```
 
 ### Running the Builder Features Script
@@ -115,7 +124,7 @@ python src/features/build_features.py --f sc_pre_d_s28594
 
 ### Running the Model Training
 The script for training models accepts several arguments to customize the training process. Below are the descriptions and usage examples for each argument.
-* `--tr` specifies the type of textual representation to use (`normal` or `spellchecker`).
+* `--tr` specifies the type of textual representation to use (`tdidf` or `bow`).
 * `--f` specifies the name of the dataset to process.
 * `--m` specifies the name of the model to train (`>ModelName<` or `all`).
 * `--pg` specifies the name of the YAML file containing the model hyperparameters.

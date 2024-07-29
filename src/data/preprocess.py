@@ -6,11 +6,13 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '.
 
 import re
 import argparse
+import nltk
 import pandas as pd
 import src.utils.general_path as general_path
 import src.utils.helper_functions as helpers
 from unidecode import unidecode
 from nltk.corpus import stopwords
+from nltk.stem import SnowballStemmer
 from spellchecker import SpellChecker
 from sklearn.preprocessing import LabelEncoder
 
@@ -30,6 +32,8 @@ points_pat = re.compile(r'[,.-]')
 spell = SpellChecker(language='es')
 # Crear las Stop Words
 stop_words = stopwords.words("spanish")
+# Crear un stemmer para español
+spanish_stemmer = SnowballStemmer('spanish')
 
 def text_processing(text):
     """
@@ -72,7 +76,22 @@ def text_spellchecker_processing(text):
     print(unidecode(" ".join(tokens)))
     return unidecode(" ".join(tokens))
 
-def preprocess(data, column_name, processing_type):
+def text_stemming(text):
+    """
+    Perform stemming on a given text in Spanish.
+
+    Parameters:
+    text (str): The input text to be stemmed.
+
+    Returns:
+    str: The stemmed text.
+    """
+    words = nltk.word_tokenize(text, language='spanish')
+    stemmed_words = [spanish_stemmer.stem(word) for word in words]
+    return ' '.join(stemmed_words)
+
+
+def preprocess(data, column_name, processing_type, stemmming=False):
     """
     Preprocess the specified column in the given DataFrame using the specified processing type.
 
@@ -84,27 +103,30 @@ def preprocess(data, column_name, processing_type):
     Returns:
         pd.DataFrame: The DataFrame with the specified column prepreprocessed.
     """
+    logger.info(f' > PROCESO: Preprocesado de datos tipo {processing_type}')
     if processing_type == 'normal':
         data[column_name] = data[column_name].apply(text_processing)
-        data = helpers.df_preprocess(data, True)
     elif processing_type == 'spellchecker':
         data[column_name] = data[column_name].apply(text_spellchecker_processing)
-        data = helpers.df_preprocess(data, True)
-    return data
+    if stemmming == True:
+        data[column_name] = data[column_name].apply(text_stemming)
+        logger.info(f' > PROCESO: Stemming de datos')
+    return helpers.df_preprocess(data, True)
 
 if __name__ == "__main__":
     logger.info(' > INICIO: Script Preprocesamiento de Datos')
     parser = argparse.ArgumentParser(description='Script para procesar datos.')
     parser.add_argument('--pt', type=str, default='normal', help='Tipo de procesamiento: "normal" o "spellchecker"')
+    parser.add_argument('--stemm', action='store_true', help='Realiza un proceso de Stemming')
     args = parser.parse_args()
     processing_type = args.pt
+    stemming = args.stemm
 
     # Carga de datos
     raw_analytic_df = pd.read_csv(general_path.RAW_DATA_PATH + raw_analytic_name)
     raw_correct_df = pd.read_excel(general_path.RAW_DATA_PATH + raw_correct_name)
     logger.info(' > Carga de datos')
 
-    
     # Correción de datos
     correctly_preprocessed_df = raw_correct_df.rename(
     columns = {
@@ -134,13 +156,12 @@ if __name__ == "__main__":
     logger.info(' > CARGA: Stopwords')
 
     # Preprocesado de datos
-    logger.info(f' > PROCESO: Preprocesado de datos tipo {processing_type}')
-    preprocess_df = preprocess(preprocess_df, 'text', processing_type)
-    preprocess_df = helpers.df_preprocess(preprocess_df, True)
+    preprocess_df = preprocess(preprocess_df, 'text', processing_type, stemming)
 
     # Nomenclatura de tipo de preprocesado
     if processing_type == 'normal': processing_type = 'n'
     elif processing_type == 'spellchecker': processing_type = 'sc'
+    if stemming == True: processing_type += '_stemm'
 
     # Guarde de información
     preprocess_df.to_csv(

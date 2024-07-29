@@ -163,6 +163,7 @@ if __name__ == "__main__":
 
     # Carga de características
     feature = load_feature_object(feature_name, file_name)
+    print(feature)
     logger.info(f' > CARGADO: Se ha cargado el objeto {feature_name}_{file_name}.pkl') 
     
     # Carga de datos
